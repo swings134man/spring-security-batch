@@ -24,3 +24,10 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: create
+#  SQL auto Create allow - use - true, always,  notUse - false, never
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+
+#
