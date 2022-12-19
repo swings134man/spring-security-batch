@@ -23,11 +23,11 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
 #  SQL auto Create allow - use - true, always,  notUse - false, never
-    defer-datasource-initialization: true
+    defer-datasource-initialization: false
   sql:
     init:
-      mode: always
+      mode: never
 
 #
