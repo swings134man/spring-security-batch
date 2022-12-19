@@ -1,0 +1,26 @@
+#spring:
+
+
+
+spring:
+#  Dev Options
+  devtools:
+    livereload:
+      enabled: true
+  thymeleaf:
+    cache: true
+
+#  DB
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/make
+    driver-class-name: org.h2.Driver
+    username: sa
+
+# JPA
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: create
