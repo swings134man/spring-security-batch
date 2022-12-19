@@ -9,10 +9,10 @@ import java.util.List;
 @RestController
 public class FirstController {
 
-    @GetMapping("/")
-    public String test() {
-        return "First Controller";
-    }
+//    @GetMapping("/")
+//    public String test() {
+//        return "First Controller";
+//    }
 
     @GetMapping("/showMe")
     public List<String> hello() {
