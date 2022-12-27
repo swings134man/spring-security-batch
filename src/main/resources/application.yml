@@ -1,4 +1,5 @@
 #default
+# batch Test - ddl-auto create !!!
   spring:
     profiles:
       active: h2
