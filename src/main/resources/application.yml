@@ -10,7 +10,7 @@
         hibernate:
           format_sql: true
       hibernate:
-        ddl-auto: none
+        ddl-auto: create
   #  SQL auto Create allow - use - true, always,  notUse - false, never
       defer-datasource-initialization: false
     sql:
@@ -33,13 +33,14 @@
       #  H2
       #  DB
     datasource:
-      hikari:
-        jdbc-url: jdbc:h2:tcp://localhost/~/make
+        url: jdbc:h2:tcp://localhost/~/make
         driver-class-name: org.h2.Driver
         username: sa
     batch:
       jdbc:
         initialize-schema: embedded
+      job:
+        enabled: true
 
 ---
   # mysql
@@ -56,11 +57,12 @@
         #  MySQL
         #  DB
     datasource:
-      hikari:
-        jdbc-url: jdbc:mysql://localhost:3306/make?useSSL=false
+        url: jdbc:mysql://localhost:3306/make?useSSL=false
         driver-class-name: com.mysql.cj.jdbc.Driver
         username: root
         password: 1234
     batch:
       jdbc:
        initialize-schema: always
+      job:
+        enabled: false
