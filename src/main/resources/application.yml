@@ -10,7 +10,7 @@
         hibernate:
           format_sql: true
       hibernate:
-        ddl-auto: create
+        ddl-auto: none
   #  SQL auto Create allow - use - true, always,  notUse - false, never
       defer-datasource-initialization: false
     sql:
@@ -65,4 +65,4 @@
       jdbc:
        initialize-schema: always
       job:
-        enabled: false
+        enabled: true
