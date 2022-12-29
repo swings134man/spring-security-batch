@@ -20,8 +20,11 @@
 // * -- Job Launcher Test 예제
 // * - 수동으로 Batch Job 을 실행 하는 예제.
 // * - 실행 방식을 커스텀 한것.
+// * - yml 에서 batch.enable = false 설정시에만 해당 클래스가 실행가능.
 // *
 // * 1. ApplicationRunner : Spring Boot 실행시 먼저 실행시키도록 하는 Interface
+// * 2. JobParameter 를 생성하기 위해서 사용 할 수도 있음.
+// * 3. 실행중에 주입 받는 방법도 존재함.
 // *
 // ************/
 //@Component
@@ -35,14 +38,16 @@
 //
 //
 //    // JobLauncher 를 통해 실행
-//    @Override
-//    public void run(ApplicationArguments args) throws Exception {
+//    // JobInstance.class
+////    @Override
+////    public void run(ApplicationArguments args) throws Exception {
+////
+////        // parameters - 파라미터를 만들 수 있는 빌더 객체 제공.
+////        JobParameters jobParameters = new JobParametersBuilder()
+////                .addString("name", "user2")
+////                .toJobParameters();
+////
+////        jobLauncher.run(job, jobParameters);
+////    }
 //
-//        // parameters - 파라미터를 만들 수 있는 빌더 객체 제공.
-//        JobParameters jobParameters = new JobParametersBuilder()
-//                .addString("name", "user2")
-//                .toJobParameters();
-//
-//        jobLauncher.run(job, jobParameters);
-//    }
 //}
