@@ -1,4 +1,4 @@
-package com.example.makeproject.batch.step_domain.execution;
+package com.example.makeproject.batch.domain.step_domain.execution;
 
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
