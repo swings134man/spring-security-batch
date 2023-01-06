@@ -42,13 +42,13 @@
 //    @Bean
 //    public Job job() {
 //        return jobBuilderFactory.get("jobParamJob")
-//                .start(step1())
+//                .start(step1(null))
 //                .build();
 //    }
 //
 //    @Bean
 //    @JobScope
-//    public Step step1() {
+//    public Step step1(@Value("#{jobParameters[requestDate]}") String jobParam) {
 //        return stepBuilderFactory.get("step1")
 //                .tasklet(tasklet1())
 //                .build();

@@ -1,4 +1,4 @@
-package com.example.makeproject.batch.domain.step_domain.execution;
+package com.example.makeproject.batch.domain_basic.step_domain.execution;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.StepContribution;
