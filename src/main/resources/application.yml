@@ -71,4 +71,4 @@
        initialize-schema: always
       job:
         enabled: true
-#        names: ${job.name:NONE}
+        names: ${job.name:NONE}
