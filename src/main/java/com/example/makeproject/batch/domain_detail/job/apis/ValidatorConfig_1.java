@@ -8,6 +8,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.job.DefaultJobParametersValidator;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,6 +51,7 @@ public class ValidatorConfig_1 {
                 .start(step1())
                 .next(step2())
                 .next(step3())
+//                .incrementer(new RunIdIncrementer()) // Batch 제공 기본 Increment
                 .incrementer(new CustomJobParametersIncrement()) // custom increment class
                 .build();
     }
