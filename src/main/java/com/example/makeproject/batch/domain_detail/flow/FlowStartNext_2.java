@@ -3,6 +3,7 @@ package com.example.makeproject.batch.domain_detail.flow;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.job.builder.FlowBuilder;
 import org.springframework.batch.core.job.flow.Flow;
 import org.springframework.context.annotation.Bean;
@@ -116,6 +117,8 @@ public class FlowStartNext_2 {
                     System.out.println("step4 has executed");
                     // 4까지 Excute, 4 = FAILED, JOB = FAILED
                     // throw new RuntimeException("step4 has Exception");
+                    // Flow 잡일떄 on("FAILED").to(step2()).end() ---> 이런식으로 ExitStatus 를 활용 할 수 있다.
+//                    contribution.setExitStatus(ExitStatus.FAILED); // 배치 스텝 Execution에서 ExitCode를 FAILED 로 설정함. 하지만 STAUTS 자체는 성공이다.
                     return RepeatStatus.FINISHED;
                 })
                 .build();
