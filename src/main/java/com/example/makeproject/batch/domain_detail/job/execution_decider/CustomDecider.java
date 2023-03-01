@@ -17,7 +17,7 @@ import org.springframework.batch.core.job.flow.JobExecutionDecider;
  ************/
 public class CustomDecider implements JobExecutionDecider {
 
-    private int count = 0;
+    private int count = 1; // if 0=ODD, 1=EVEN
 
 
     @Override

@@ -49,7 +49,7 @@ public class JobExecutionDeciderConfig {
      * @return CustomDecider.class
      */
     @Bean
-    private JobExecutionDecider decider() {
+    public JobExecutionDecider decider() {
         return new CustomDecider(); // CustomDecider.class
     }
 
@@ -63,6 +63,12 @@ public class JobExecutionDeciderConfig {
                 .build();
     }
 
+    /**
+     * evenStep Method : if return Value of decider() is "EVEN"
+     * this method will be run.
+     * And Connected by Flow Job
+     * @return null
+     */
     @Bean
     public Step evenStep() {
         return stepBuilderFactory.get("evenStep")
@@ -73,6 +79,12 @@ public class JobExecutionDeciderConfig {
                 .build();
     }
 
+    /**
+     * oddStep : if return Value if decider() is "ODD"
+     * this method will be run.
+     * And Connected by Flow Job
+     * @return null
+     */
     @Bean
     public Step oddStep() {
         return  stepBuilderFactory.get("oddStep")
