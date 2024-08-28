@@ -1,0 +1,74 @@
+#default
+# batch Test - ddl-auto create !!!
+
+  spring:
+    profiles:
+      active: h2
+    # JPA
+    jpa:
+      show-sql: true
+      properties:
+        hibernate:
+          format_sql: true
+      hibernate:
+        ddl-auto: none
+  #  SQL auto Create allow - use - true, always,  notUse - false, never
+      defer-datasource-initialization: false
+    sql:
+      init:
+        mode: never
+  logging:
+    level:
+      com.example.makeproject: debug
+
+
+
+---
+#  H2
+  spring:
+    config:
+      activate:
+        on-profile: h2
+      #  Dev Options
+    devtools:
+      livereload:
+        enabled: true
+    thymeleaf:
+      cache: true
+      #  H2
+      #  DB
+    datasource:
+        url: jdbc:h2:tcp://localhost/~/make
+        driver-class-name: org.h2.Driver
+        username: sa
+    batch:
+      jdbc:
+        initialize-schema: embedded
+      job:
+        enabled: true
+
+---
+  # mysql
+  spring:
+    config:
+      activate:
+        on-profile: mysql
+      #  Dev Options
+    devtools:
+      livereload:
+        enabled: true
+    thymeleaf:
+      cache: true
+        #  MySQL
+        #  DB
+    datasource:
+        url: jdbc:mysql://localhost:3306/make?useSSL=false
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        password: 1234
+    batch:
+      jdbc:
+       initialize-schema: always
+      job:
+        enabled: true
+        names: ${job.name:NONE}

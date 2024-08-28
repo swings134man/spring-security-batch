@@ -1,0 +1,20 @@
+# /domain_basic/job_domain/launcher/*
+# For Job Launcher Test Request
+
+# sync
+### Send POST request with json body
+POST http://localhost:8080/batch/launch/sync
+Content-Type: application/json
+
+{
+  "id": "Lucas"
+}
+
+### async
+### Send POST request with json body
+POST http://localhost:8080/batch/launch/async
+Content-Type: application/json
+
+{
+  "id": "Lucas"
+}
