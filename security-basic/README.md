@@ -19,9 +19,15 @@ Spring Security 는 Spring 기반의 어플리케이션의 보안(인증, 권한
     - JSESSIONID 라는 값으로 사용자를 식별하고, 브라우저에 Cookie 로 저장함. 
     - 이후, 인증이 필요한 요청이 들어오면, JSESSIONID 를 사용하여 사용자를 식별함.
       즉, 세션값이 같거나, 유효하다면, 자격증명을 하지 않아도 보안관련 처리를 하지 않음.
+      
+- Security Config Lambda 설정? 
+    - Spring Security 6.1, Spring boot 3.1.0 를 시작으로
+    (Lambda)DSL 스타일 사용을 권장.
+    또한 몇몇 Method 들은 Deprecated 되었음. -> spring Security7 부터는 삭제될 예정.
+    
 ```
 
-> 흐름별 각 클래스
+> ### Flow 별 클래스
 >> Security FilterChain(Authentication Filter) : 요청을 받아서 인증을 처리하는 필터체인
 >>> HTTP Request 를 가로채어, 인증 정보 추출, 이를 기반으로 일련의 인증 과정들을 진행함.<br/>
 >>> Ex) 사용자명, 비밀번호, 토큰 등을 추출하여 AuthenticationManager 에게 전달<br/>
@@ -42,3 +48,10 @@ Spring Security 는 Spring 기반의 어플리케이션의 보안(인증, 권한
 >>> DaoAuthenticationProvider 를 확장함. (DB 기반 사용자 정보 사용 인증)</br>
 >>> JwtAuthenticationProvider 는 JWT 토큰을 사용하여 인증함 </br></br>
 >>> UserDetailsService, PasswordEncoder 등을 사용하여 사용자 인증 처리하게됨.
+
+<br/><br/>
+
+## 2. Spring Security Class Info
+
+- SpringBootWebSecurityConfiguration: Spring Security 설정을 위한 클래스
+    - defaultSecurityFilterChain: 기본적으로 동작하는 SecurityFilter -> 기본적으로 모든 http 요청이 증명되어야함
