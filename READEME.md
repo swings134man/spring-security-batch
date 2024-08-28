@@ -13,4 +13,4 @@
 ### Spring Security
 > Info
 >> Module
->> 1. 
+>> 1. security-basic (Spring Boot 3.2.9, Security 6.2.6)
