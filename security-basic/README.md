@@ -33,7 +33,13 @@ Spring Security 는 Spring 기반의 어플리케이션의 보안(인증, 권한
         - 다만 계정잠금, 만료, 자격증명만료, 활성화 여부 등을 저장할 필요는 없다. 인증이 성공해야지만, 세부 정보를 저장할 수 있기 떄문
     - 따라서 Security 내부로 유저 세부정보를 다시 전달할 필요 없음 -> Authentication 객체를 통해 인증 정보를 전달함.
    
+- @EnableWebSecurity: Main Class? 
+    - Spring Security 를 사용하기 위한 설정을 추가하는 어노테이션
+    - Main Class 에 명시하지 않아도 됨.
+    - dependency 에 Security 가 존재하면, Auto 활성화 됨. Boot 없이 사용한다면 설정필요
     
+- UserDetailManager: methods? 
+    - 해당 인터페이스의 메서드들 user(crud) 관련을 필수로 사용 X -> 필요에 따라 별도로 구현.
 ```
 
 > ### Flow 별 클래스
@@ -100,28 +106,29 @@ UserDetails:
         -> 해당 sample class 를 사용하지 않고 직접 구현해도 됨.(이제까지 보통 직접 구현했었음. 회원관리 로직의 복잡성 때문)
     - setter 가 없고 생성자를 통해 값을 설정함 -> 보안관련문제(setter 사용시 값 재지정 가능성이 있기때문)
     
-LDAPUserDetailsManager:
-    - LDAP 서버에서 사용자 정보를 가져오는 인터페이스
-    - LDAP은 Lightweight Directory Access Protocol 의 약자로, 디렉토리 서비스 프로토콜임.
-        - 네트워크를 통해 조직내의 사용자 정보를 검색하고 수정하는 프로토콜
-    - Spring-Security-Starter 에는 LDAP 이 없기에 별도의 의존성을 추가해야함.(spring-ldap-core, spring-security-ldap)
-    - Spring Security 에서는 LDAP 서버에서 사용자 정보를 가져오는 방법을 제공함. (LdapUserDetailsManager)
-    - SecurityConfig 에서 설정을 추가하여 사용할 수 있음.(@Bean return LdapUserDetailsManager 객체)
-    - 특정 조직이 아니면, 잘 사용되지 않음.
-
-InMemoryUserDetailsManager:
-    - 메모리에 사용자 정보를 저장하는 인터페이스
-    - 사용자 정보를 메모리에 저장하고, 사용자 정보를 가져오는 역할을 함.
-    - 사용자 정보를 저장하는 방법은 구현체에 따라 다름.
-
-JdbcUserDetailsManager:
-    - JDBC 를 사용하여 사용자 정보를 가져오는 인터페이스
-    - JDBC 를 사용하여 사용자 정보를 가져오는 방법을 제공함.
-    - DataSource 를 사용하여 DB 에서 사용자 정보를 가져옴.
-    - DB 에서 사용자 정보를 가져올 때 어떻게 가져오는지?
-        - table 구조, 컬럼명 등등 
-        - Security 에서 DB, Table, Column 등등 구조를 설계해놓고 해당 클래스에 구현해놨음.(query)
-    - users.ddl 파일안에 필수 table, column 과 같은 생성정보가 존재하고, 해당 파일을 참조함
+    ------------------------------------------------------------------------------------------------------
+    LDAPUserDetailsManager:
+        - LDAP 서버에서 사용자 정보를 가져오는 인터페이스
+        - LDAP은 Lightweight Directory Access Protocol 의 약자로, 디렉토리 서비스 프로토콜임.
+            - 네트워크를 통해 조직내의 사용자 정보를 검색하고 수정하는 프로토콜
+        - Spring-Security-Starter 에는 LDAP 이 없기에 별도의 의존성을 추가해야함.(spring-ldap-core, spring-security-ldap)
+        - Spring Security 에서는 LDAP 서버에서 사용자 정보를 가져오는 방법을 제공함. (LdapUserDetailsManager)
+        - SecurityConfig 에서 설정을 추가하여 사용할 수 있음.(@Bean return LdapUserDetailsManager 객체)
+        - 특정 조직이 아니면, 잘 사용되지 않음.
+    
+    InMemoryUserDetailsManager:
+        - 메모리에 사용자 정보를 저장하는 인터페이스
+        - 사용자 정보를 메모리에 저장하고, 사용자 정보를 가져오는 역할을 함.
+        - 사용자 정보를 저장하는 방법은 구현체에 따라 다름.
+    
+    JdbcUserDetailsManager:
+        - JDBC 를 사용하여 사용자 정보를 가져오는 인터페이스
+        - JDBC 를 사용하여 사용자 정보를 가져오는 방법을 제공함.
+        - DataSource 를 사용하여 DB 에서 사용자 정보를 가져옴.
+        - DB 에서 사용자 정보를 가져올 때 어떻게 가져오는지?
+            - table 구조, 컬럼명 등등 
+            - Security 에서 DB, Table, Column 등등 구조를 설계해놓고 해당 클래스에 구현해놨음.(query)
+        - users.ddl 파일안에 필수 table, column 과 같은 생성정보가 존재하고, 해당 파일을 참조함
         
 
 ```
