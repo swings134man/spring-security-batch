@@ -40,6 +40,17 @@ Spring Security 는 Spring 기반의 어플리케이션의 보안(인증, 권한
     
 - UserDetailManager: methods? 
     - 해당 인터페이스의 메서드들 user(crud) 관련을 필수로 사용 X -> 필요에 따라 별도로 구현.
+    
+- BCryptPasswordEncoder: 
+    - Spring Security 에서 제공하는 패스워드 인코더
+    - 패스워드를 암호화하여 저장하고, 인증할 때 비교함. (DAOAuthenticationProvider 에서 사용)
+    - Spring Security 에서의 기본값으로: Hashing 10 을 라운드수 또는 작업량 변수로 설정 -> 2^10 번의 해싱을 수행함.
+        -> 해당값은 변경가능
+    - 해당 Class 에서 패턴이나 인코더, version 등을 설정할 수 있음.
+        -> BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10, new SecureRandom()); -> 이걸로 설정이 바뀌고 값 또한 변경됨 (파라미터의 경우 class 참고)
+        -> SecureRandom은 흔히 말하는 salt 값을 의미함. (암호화된 패스워드에 추가되는 랜덤값, 해당 salt 값을 더해 암호화를 강력하게 함)
+    - 원래의 Plain Text 로 돌릴수 없음(일방향 연산), 해시된값을 원래의 데이터로 돌리는것 불가하기 떄문에, 비밀번호를 잊어버리면 다시 설정해야함.
+    - 즉 해당 기법은 해싱 기법을 사용하여, 패스워드를 암호화하고, salt 값을 추가하여 보안성을 높이는것.
 ```
 
 > ### Flow 별 클래스
@@ -130,5 +141,13 @@ UserDetails:
             - Security 에서 DB, Table, Column 등등 구조를 설계해놓고 해당 클래스에 구현해놨음.(query)
         - users.ddl 파일안에 필수 table, column 과 같은 생성정보가 존재하고, 해당 파일을 참조함
         
-
+PasswordEncoder: 
+    - 패스워드를 암호화하는 인터페이스
+    - 패스워드를 암호화하여 저장하고, 인증할 때 비교함.
+    - Spring Security 에서는, BcryptPasswordEncoder 를 가장많이 사용, 이외에 다른 암호화 방식도 사용가능함.(ScryptPasswordEncoder, Argon2PasswordEncoder)
+        - BcryptPasswordEncoder: Bcrypt(Hashing 알고리즘) 를 사용  
+        - ScryptPasswordEncoder: BcryptPasswordEncoder 보다 좀더 강력함. 패스워드 이외에 사용자의 Memory 사용을 필요로 함
+        - Argon2PasswordEncoder: 가장 최신, Bcrypt + Scrypt + 다중 스레드 사용 필요. 즉 연산 + 메모리 + 스레드 사용해야함, 하지만 서버의 부하가 커지기 때문에 사용시 성능문제발생
+    - 해당 인터페이스의 matches() 메서드를 통해 패스워드를 비교함.
+    - 클라이언트 요청 pwd -> hashing -> DB 조회 -> hash 값 비교 -> 인증 성공/실패
 ```

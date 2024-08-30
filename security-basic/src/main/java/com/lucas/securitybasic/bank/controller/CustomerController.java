@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustomerController {
 
     private final CustomerJpaRepository customerRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // TODO: Business Logic Will Be Moved To Service Class
 
@@ -29,6 +31,9 @@ public class CustomerController {
         ResponseEntity<String> response = null;
 
         try {
+            // Encrypt Password
+            customer.setPwd(passwordEncoder.encode(customer.getPwd()));
+
             Customer saveResult = customerRepository.save(customer);
             if(saveResult.getId() > 0){
                 log.info("Customer Results: {}", saveResult);
