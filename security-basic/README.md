@@ -51,6 +51,11 @@ Spring Security 는 Spring 기반의 어플리케이션의 보안(인증, 권한
         -> SecureRandom은 흔히 말하는 salt 값을 의미함. (암호화된 패스워드에 추가되는 랜덤값, 해당 salt 값을 더해 암호화를 강력하게 함)
     - 원래의 Plain Text 로 돌릴수 없음(일방향 연산), 해시된값을 원래의 데이터로 돌리는것 불가하기 떄문에, 비밀번호를 잊어버리면 다시 설정해야함.
     - 즉 해당 기법은 해싱 기법을 사용하여, 패스워드를 암호화하고, salt 값을 추가하여 보안성을 높이는것.
+    
+- CustomAuthenticationProvider 생성 해야 하는 이유
+    - AuthenticationProvider 는 유저의 인증을 처리하는 인터페이스
+    - Spring Security 에서는, 인증을 처리하는 방법을 AuthenticationProvider 에게 위임함.
+    - 예를 들어, 허용국가목록의 유저만 접속하게 한다던지, 특정 유저들만 인증가능하게 한다던지 관련 로직을 위해서 생성하게 됨
 ```
 
 > ### Flow 별 클래스
@@ -103,6 +108,8 @@ UserDetailsManager:
     - 유저 세부 정부 관리함. -> DB, 저장 시스템에서 유저의 세부 정보를 가져오는(로드) 역할, 유저의 세부 정보를 저장하는 역할(save, update, delete, 패스워드 변경)
     - 해당 인터페이스에서 일부 샘플 구현을 제공함. (InMemoryUserDetailsManager, JdbcUserDetailsManager, LdapUserDetailsManager, JpaUserDetailsManager)
     - 자체 인증로직이 있거나, 수동 구현시 -> AuthenticationProvider 를 구현하여 사용자 인증을 처리해야함.
+    - 또한 id, pw 가 아닌 OTP, OAUTH2 로 인증 을 추가하려는 경우 등등이다.(이 경우 여러개의 AuthenticationProvider 를 구현하여 사용해야함)
+        - ProviderManager -> 여러개의 AuthenticationProvider 를 관리함.
     
 UserDetails: 
     - 유저 세부 정보 인터페이스
@@ -150,4 +157,31 @@ PasswordEncoder:
         - Argon2PasswordEncoder: 가장 최신, Bcrypt + Scrypt + 다중 스레드 사용 필요. 즉 연산 + 메모리 + 스레드 사용해야함, 하지만 서버의 부하가 커지기 때문에 사용시 성능문제발생
     - 해당 인터페이스의 matches() 메서드를 통해 패스워드를 비교함.
     - 클라이언트 요청 pwd -> hashing -> DB 조회 -> hash 값 비교 -> 인증 성공/실패
+```
+
+## 4. Spring Security - ETC
+```TEXT
+1. AuthenticationProvider
+    - 인증을 처리하는 인터페이스, 대표적으로 authenticate() 메서드를 구현해야함.
+        - 인증 완료시, Authentication 객체를 반환함. 해당 객체는 유저관련, 권한, 인증여부 등을 담고있음.
+        - supports() 메서드를 통해, 해당 Provider 가 어떤 인증을 처리할지 결정함.
+            - 기본적으로 username password 인증을 처리 관련 로직이 동작
+    - 또한 여러개의 AuthenticationProvider 를 정의해서 사용도 가능하지만
+    보통의 운영상황에서는 1개의 AuthenticationProvider 를 사용함.
+    다른 종류의 authentication 로직을 하나에서 처리할 수 있기 때문
+
+    - 커스텀한 AuthenticationProvider 를 정의 하지 않았다면, 보통의 경우 DaoAuthenticationProvider 를 사용함.
+    해당 Provider 는 UserDetailsService 를 사용하여 사용자 정보를 가져오고, PasswordEncoder 를 사용하여 비밀번호를 비교함.
+    그렇게 되면 결국 UserDetails 는 사용되지 않게됨.(EazyBankUserDetails.class)
+    
+    - default 설정에 의거하면, usernamePasswordAuthenticationToken 을 사용하여 인증을 처리함.
+        -> username, pwd 로 인증 할 경우(default) 해당 토큰이 사용됨
+    
+    ** 동작 순서(Sequence)
+    1. 요청
+    2. Security FilterChain
+    3. AuthenticationManager - authenticate() 호출 -> ProviderManager -> CustomAuthenticationProvider
+    4. CustomAuthenticationProvider - authenticate() 호출 -> User 정보 가져오기(DB) -> 비밀번호 비교 -> Authentication 객체 생성 및 return to ProviderManager
+    
+
 ```
