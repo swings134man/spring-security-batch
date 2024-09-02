@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -37,6 +38,7 @@ public class CustomerController {
         try {
             // Encrypt Password
             customer.setPwd(passwordEncoder.encode(customer.getPwd()));
+            customer.setCreateDt(String.valueOf(new Date(System.currentTimeMillis())));
 
             Customer saveResult = customerRepository.save(customer);
             if(saveResult.getId() > 0){
