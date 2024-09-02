@@ -1,13 +1,18 @@
 package com.lucas.eazybankboot.common.security.config;
 
+import com.lucas.eazybankboot.common.filter.CsrfCookieFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.Collections;
@@ -27,7 +32,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        // CSRF Handler
+        CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
+        requestHandler.setCsrfRequestAttributeName("_csrf"); // Default: _csrf (Spring Security)
+
         http
+                .securityContext(config -> config.requireExplicitSave(false)) // Custom 한 SessionManagement 를 따라서 JSESSIONID 생성
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)) // 또한 첫로그인 이후, 항상 JSESSIONID 생성됨
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer
                         .configurationSource(request -> {
                             var cors = new CorsConfiguration();
@@ -39,7 +50,11 @@ public class SecurityConfig {
                             return cors;
                         })
                 )
-                .csrf(AbstractHttpConfigurer::disable) // Else: (csrf -> csrf.disabled()) Cause! 401 error on PostMan
+                .csrf((csrf) -> csrf.csrfTokenRequestHandler(requestHandler)
+                        .ignoringRequestMatchers("/contact", "/register") // CSRF Token Ignore: 인증없이 가능한 요청
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                )
+                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class) // CSRF Token 생성후, 전달
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/notices", "/contact", "/register").permitAll()
                         .anyRequest()
