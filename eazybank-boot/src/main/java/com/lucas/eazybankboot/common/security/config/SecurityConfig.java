@@ -31,7 +31,7 @@ public class SecurityConfig {
                         .authenticated()
                 )
                 .formLogin(withDefaults())
-                .httpBasic(withDefaults()); // swagger error: Must be authenticated
+                .httpBasic(withDefaults());
 
         return http.build();
     }

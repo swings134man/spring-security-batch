@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.sql.Date;
 
-@Entity(name = "notice")
+@Entity(name = "notice_details")
 @Data
 public class Notice {
 

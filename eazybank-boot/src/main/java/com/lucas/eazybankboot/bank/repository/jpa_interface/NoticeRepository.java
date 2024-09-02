@@ -12,6 +12,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
-	@Query(value = "from notice n where CURRENT_DATE BETWEEN n.noticBegDt AND n.noticEndDt")
+	@Query(value = "from notice_details n where CURRENT_DATE BETWEEN n.noticBegDt AND n.noticEndDt")
 	List<Notice> findAllActiveNotices();
 }
