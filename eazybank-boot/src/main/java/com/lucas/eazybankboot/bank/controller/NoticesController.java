@@ -23,7 +23,7 @@ public class NoticesController {
         List<Notice> notices = noticeRepository.findAllActiveNotices();
         if (notices != null ) {
             return ResponseEntity.ok()
-                    .cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS))
+                    .cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS)) // 설정에따라 브라우저에 캐시저장 해당시간동안 서버에 요청하지 않음
                     .body(notices);
         }else {
             return null;
