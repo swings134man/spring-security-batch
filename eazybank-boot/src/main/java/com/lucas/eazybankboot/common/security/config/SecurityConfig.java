@@ -1,6 +1,9 @@
 package com.lucas.eazybankboot.common.security.config;
 
+import com.lucas.eazybankboot.common.filter.AuthoritiesLoggingAfterFilter;
+import com.lucas.eazybankboot.common.filter.AuthoritiesLoggingAtFilter;
 import com.lucas.eazybankboot.common.filter.CsrfCookieFilter;
+import com.lucas.eazybankboot.common.filter.RequestValidationBeforeFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -55,12 +58,14 @@ public class SecurityConfig {
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 )
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class) // CSRF Token 생성후, 전달
+                .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class) // Basic Auth 이전에 실행되는 Custom Filter
+                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class) // Basic Auth 와 같은 위치에 실행되는 Custom Filter
+                .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class) // Basic Auth 이후에 실행되는 Custom Filter
                 .authorizeHttpRequests(requests -> requests
                                 .requestMatchers("/myAccount").hasRole("USER")
                                 .requestMatchers("/myBalance").hasAnyRole("USER","ADMIN")
                                 .requestMatchers("/myLoans").hasRole("USER")
                                 .requestMatchers("/myCards").hasRole("USER")
-
                                 .requestMatchers("/user").authenticated()
                                 .requestMatchers("/notices", "/contact", "/register").permitAll()
                 )
