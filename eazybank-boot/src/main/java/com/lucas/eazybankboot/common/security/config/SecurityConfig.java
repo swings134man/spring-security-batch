@@ -56,9 +56,13 @@ public class SecurityConfig {
                 )
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class) // CSRF Token 생성후, 전달
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/notices", "/contact", "/register").permitAll()
-                        .anyRequest()
-                        .authenticated()
+                                .requestMatchers("/myAccount").hasRole("USER")
+                                .requestMatchers("/myBalance").hasAnyRole("USER","ADMIN")
+                                .requestMatchers("/myLoans").hasRole("USER")
+                                .requestMatchers("/myCards").hasRole("USER")
+
+                                .requestMatchers("/user").authenticated()
+                                .requestMatchers("/notices", "/contact", "/register").permitAll()
                 )
                 .formLogin(withDefaults())
                 .httpBasic(withDefaults());

@@ -1,5 +1,6 @@
 package com.lucas.eazybankboot.common.security.config;
 
+import com.lucas.eazybankboot.bank.model.entity.Authority;
 import com.lucas.eazybankboot.bank.model.entity.Customer;
 import com.lucas.eazybankboot.bank.repository.jpa_interface.CustomerJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * EazyBankUsernamePasswordAuthenticationProvider
@@ -42,15 +44,24 @@ public class EazyBankUsernamePasswordAuthenticationProvider implements Authentic
 
         if(customer != null) {
             if(passwordEncoder.matches(pwd, customer.getPwd())){
-                List<GrantedAuthority> authorities = new ArrayList<>();
-                authorities.add(new SimpleGrantedAuthority(customer.getRole()));
-                return new UsernamePasswordAuthenticationToken(username, pwd, authorities);
+                return new UsernamePasswordAuthenticationToken(username, pwd, getGrantedAuthorities(customer.getAuthorities()));
             }else {
                 throw new BadCredentialsException("Password Not Matched");
             }
         }else {
             throw new BadCredentialsException("User Not Found With the Given Details");
         }
+    }
+
+    // Set To List
+    private List<GrantedAuthority> getGrantedAuthorities(Set<Authority> authorities) {
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+
+        for(Authority authority : authorities){
+            grantedAuthorities.add(new SimpleGrantedAuthority(authority.getName()));
+        }
+
+        return grantedAuthorities;
     }
 
     // Username, Password 인증 -> DaoAuthenticationProvider 의 Default Code

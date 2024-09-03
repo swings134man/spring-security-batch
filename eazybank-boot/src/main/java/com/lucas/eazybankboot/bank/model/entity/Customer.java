@@ -1,11 +1,14 @@
 package com.lucas.eazybankboot.bank.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+
+import java.util.Set;
 
 @Entity
-@Data
+@Getter @Setter @ToString
 public class Customer {
 
     @Id
@@ -22,4 +25,7 @@ public class Customer {
     private String role;
     private String createDt;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+    private Set<Authority> authorities;
 }
