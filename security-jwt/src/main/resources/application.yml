@@ -25,8 +25,3 @@ spring:
     url: jdbc:mysql://192.168.35.135:3370/eazybankui?useSSL=false
     username: develop
     password: develop12!@
-
-# Only Use For Develop
-#logging:
-#  level:
-#    org.springframework.security.web.FilterChainProxy: DEBUG
