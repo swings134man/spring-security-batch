@@ -57,6 +57,10 @@ public class SecurityConfig {
                         .ignoringRequestMatchers("/contact", "/register") // CSRF Token Ignore: 인증없이 가능한 요청
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 )
+                .logout(logout -> {
+                    logout.logoutRequestMatcher(request -> request.getServletPath().equals("/logout"));
+                    // TODO: Gen New Logout Handler -> JWT, Xsrf, Session, Cookie clear
+                })
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class) // CSRF Token 생성후, 전달
                 .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class) // Basic Auth 이전에 실행되는 Custom Filter
                 .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class) // Basic Auth 와 같은 위치에 실행되는 Custom Filter
