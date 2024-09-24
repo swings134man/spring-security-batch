@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: local
+
+  security:
+    user:
+      name: user
+      password: 1234
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: none #create, update
+    defer-datasource-initialization: false
+  sql:
+    init:
+      mode: never #always
+
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.35.135:3370/eazybankui?useSSL=false
+    username: develop
+    password: develop12!@
