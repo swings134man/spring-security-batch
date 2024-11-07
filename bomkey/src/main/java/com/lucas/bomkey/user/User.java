@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Entity
 @Table(name="user")
 @Getter
@@ -17,7 +19,8 @@ public class User extends BaseTimeEntity {
     private Long id;
     private String userEmail;
     private String password;
-    private String userName;
+    private String userName; // Like ID ?
+    private String role; // USER, ADMIN
 
     //TODO: if you need etc...(phone, address ,,,)
 }

@@ -2,6 +2,7 @@ package com.lucas.bomkey.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository repository;
+    private final BCryptPasswordEncoder encoder;
 
 
     @Transactional
@@ -23,6 +25,7 @@ public class UserService {
     }
 
     private User save(User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
         return repository.save(user);
     }
 
