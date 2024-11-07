@@ -1,0 +1,4 @@
+// Method: GET
+// Test Code Request
+// scope=openid profile -> profile Request PAGE ADD
+http://localhost:9999/oauth2/authorize?response_type=code&client_id=oidc-client&scope=openid&redirect_uri=http://localhost:3000
