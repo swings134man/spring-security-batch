@@ -1,6 +1,6 @@
 package com.lucas.bomkey.config;
 
-import com.lucas.bomkey.user.CustomUserService;
+import com.lucas.bomkey.oauth_client.OAuthClientService;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -16,18 +16,12 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
-import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
@@ -44,12 +38,7 @@ import java.util.UUID;
 public class SecurityConfig {
 
     @Lazy
-    private final CustomUserService customUserService;
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    private final OAuthClientService oAuthClientService;
 
     @Bean
     @Order(1)
@@ -78,6 +67,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/user/signup").permitAll()
+                        .requestMatchers("/client/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(Customizer.withDefaults());
@@ -85,36 +75,23 @@ public class SecurityConfig {
         return http.build();
     }
 
-
-//    @Bean
-//    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-//        AuthenticationManagerBuilder authenticationManagerBuilder =
-//                http.getSharedObject(AuthenticationManagerBuilder.class);
-//        authenticationManagerBuilder.userDetailsService(userDetailsService());
-//        return authenticationManagerBuilder.build();
-//    }
-//    // TODO: User 정보를 DB에서 가져오도록 수정
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        return customUserService;
-//    }
-
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
-        RegisteredClient oidcClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("oidc-client") // client 인식 ID
-                .clientSecret(passwordEncoder().encode("secret")) // secret key
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .redirectUri("http://localhost:3000")
-                .postLogoutRedirectUri("http://localhost:3000")
-                .scope(OidcScopes.OPENID)
-                .scope(OidcScopes.PROFILE)
-                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
-                .build();
+        return new RegisteredClientRepository() {
+            @Override
+            public void save(RegisteredClient registeredClient) {
+            }
 
-        return new InMemoryRegisteredClientRepository(oidcClient);
+            @Override
+            public RegisteredClient findById(String id) {
+                return oAuthClientService.findByIdString(id);
+            }
+
+            @Override
+            public RegisteredClient findByClientId(String clientId) {
+                return oAuthClientService.loadClientByClientId(clientId);
+            }
+        };
     }
 
     // TODO 실제 Key 는 DB에 저장하고, 이를 가져오도록 수정
