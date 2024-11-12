@@ -1,4 +1,22 @@
 // Method: GET
 // Test Code Request
 // scope=openid profile -> profile Request PAGE ADD
-http://localhost:9999/oauth2/authorize?response_type=code&client_id=oidc-client&scope=openid&redirect_uri=http://localhost:3000
+GET http://localhost:9999/oauth2/authorize?response_type=code&client_id=oidc-client&scope=openid&redirect_uri=http://localhost:3000
+
+// 2. Login from Basic auth form
+// 3. request Token(AT, RT) from auth code
+###
+POST http://localhost:9999/oauth2/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code
+code=YOUR_AUTHORIZATION_CODE
+redirect_uri=http://localhost:3000
+# Basic Auth Part
+client_id=oidc-client
+client_secret=secret
+
+// Test Code Request: With Access Token Request
+###
+GET http://localhost:9999/test
+Authorization : Bearer {ACCESS_TOKEN}

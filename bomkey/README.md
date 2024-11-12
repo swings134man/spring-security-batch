@@ -2,42 +2,27 @@
 
 ### Description
 - Using this Module, you can use Authorization Server to Authenticate and Authorize the user.
-- This Server provides AT(Access Token), RT(Refresh Token) 
-- <del>This server does not have any information about users, it only provides the token.</del>
+- This Server provides AT(Access Token), RT(Refresh Token), scope, token_type, expires_in, etc.
+- This Server is based on OAuth 2.0 Authorization Server.
 ---
 
-[//]: # (### Initial settings)
+### Flow
+1. Client sends a request to the Authorization Server.
+2. Auth Server provides the Login Page.
+3. User enters the credentials.
+4. Auth Server validates the credentials.
+5. Auth Server provides the Authorization Code.
+6. Client sends the Authorization Code to the Auth Server.
+7. Auth Server provides the Access Token and Refresh Token.
 
-[//]: # (- You Must be registered the <b>server name, info, url, Redirect Url</b>)
-
-[//]: # (  - this information is used to identify the server.)
-
-[//]: # (- if you success the registration, you can get the <b>server key, And Jwt Secret Key.</b>)
-
-[//]: # ()
-[//]: # ()
-[//]: # (--- )
-
-[//]: # (### Flow )
-
-[//]: # (#### Resource Server Request Parameter List)
-
-[//]: # ()
-[//]: # (#### 1. Generate Token)
-
-[//]: # (1. Server Key&#40;String&#41;: Server Key is the key which is used to identify the server.)
-
-[//]: # (2. Client ID&#40;String&#41;)
-
-[//]: # (3. Client Roles: if this Data Empty, default value is "user" Roles)
-
-[//]: # (4. AT, RT Expire time: if this Data Empty, default value is 2 hour&#40;AT&#41;, 1 day&#40;RT&#41;)
-
-[//]: # ()
-[//]: # (#### 2. expire Access Token&#40;Refresh Token is not expired&#41;)
-
-[//]: # (1. Server Key&#40;String&#41;)
-
-[//]: # (2. Client ID&#40;String&#41;)
-
-[//]: # (3. Refresh Token&#40;String&#41;)
+--- 
+### Info
+> https://docs.spring.io/spring-authorization-server/reference/getting-started.html <br/>
+> 해당 문서의 기반한 OAuth2.0 Authorization Server를 구현한 모듈입니다.<br/>
+> 기존의 설정에서 변경된 내역은 아래와 같습니다. <br/>
+>> 1. User 정보를 DB에서 가져오도록 변경.
+>> 2. Client 정보(각 서버)를 DB에서 가져오도록 변경.
+>> 3. RSA Key를 DB에서 가져오도록 변경.
+>> 4. JWT 토큰에 Claim 추가로직.
+>> 
+> TEST 는 <a>Flow</a> 의 흐름과 test.http 파일을 참고하여 진행
