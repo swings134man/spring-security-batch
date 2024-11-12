@@ -124,4 +124,19 @@ class OAuthClientControllerTest {
                     assertNotNull(response);
                 });
     }
+    
+    // --------------------------------------------
+
+    @Test
+    @DisplayName("Rsa Key Gen API")
+    void rsaKeySave() throws Exception {
+        String identifier = "bomkey";
+        mockMvc.perform(post(CLIENT_URL.concat("/").concat(identifier).concat("/keys"))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(result -> {
+                    var response = result.getResponse().getContentAsString();
+                    System.out.println("Response Body: " + response);
+                });
+    }
 }

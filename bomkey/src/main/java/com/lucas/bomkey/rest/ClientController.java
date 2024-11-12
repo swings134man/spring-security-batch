@@ -1,5 +1,7 @@
 package com.lucas.bomkey.rest;
 
+import com.lucas.bomkey.keys.RsaKeys;
+import com.lucas.bomkey.keys.RsaKeysService;
 import com.lucas.bomkey.oauth_client.OAuthClient;
 import com.lucas.bomkey.oauth_client.OAuthClientService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class ClientController {
 
     private final OAuthClientService service;
+    private final RsaKeysService rsaKeysService;
 
     @GetMapping("v1/page")
     public Page<OAuthClient> getPagedClients(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
@@ -36,6 +39,13 @@ public class ClientController {
     public ResponseEntity<Boolean> deleteClient(@PathVariable Long id) {
         boolean b = service.deleteClient(id);
         return new ResponseEntity<>(b, HttpStatus.OK);
+    }
+
+    // Save RsaKeys
+    @PostMapping("/v1/{identifier}/keys")
+    public ResponseEntity<RsaKeys> saveRsaKey(@PathVariable("identifier") String identifier) {
+        RsaKeys rsaKeys = rsaKeysService.saveRsaKeys(identifier);
+        return new ResponseEntity<>(rsaKeys, HttpStatus.OK);
     }
 
 }
