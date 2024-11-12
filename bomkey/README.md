@@ -26,3 +26,8 @@
 >> 4. JWT 토큰에 Claim 추가로직.
 >> 
 > TEST 는 <a>Flow</a> 의 흐름과 test.http 파일을 참고하여 진행
+
+---
+#### ETC
+http://localhost:9999/.well-known/openid-configuration
+- 해당 URL 접속시, 해당 서버에서 제공하는 메타데이터를 제공함.(OpenID Connect)

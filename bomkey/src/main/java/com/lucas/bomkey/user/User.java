@@ -21,6 +21,7 @@ public class User extends BaseTimeEntity {
     private String password;
     private String userName; // Like ID ?
     private String role; // USER, ADMIN
+    private String host; // Test, App1, Web1 ,,,
 
     //TODO: if you need etc...(phone, address ,,,)
 }
