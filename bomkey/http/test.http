@@ -12,6 +12,7 @@ Content-Type: application/x-www-form-urlencoded
 grant_type=authorization_code
 code=YOUR_AUTHORIZATION_CODE
 redirect_uri=http://localhost:3000
+scope=openid
 # Basic Auth Part
 client_id=oidc-client
 client_secret=secret
