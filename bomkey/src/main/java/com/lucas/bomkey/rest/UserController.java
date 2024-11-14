@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +21,17 @@ public class UserController {
     public ResponseEntity<User> saveUser(@RequestBody User user) {
         User res = userService.saveUser(user);
         return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @PostMapping("view/signup")
+    public RedirectView test(User user) {
+        log.info("user: {}", user);
+        User res = userService.saveUser(user);
+        if(res != null) {
+            return new RedirectView("/login");
+        }else {
+            return new RedirectView("/error");
+        }
     }
 
     @DeleteMapping("/delete/{email}")
