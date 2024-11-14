@@ -4,6 +4,9 @@
 - Using this Module, you can use Authorization Server to Authenticate and Authorize the user.
 - This Server provides AT(Access Token), RT(Refresh Token), scope, token_type, expires_in, etc.
 - This Server is based on OAuth 2.0 Authorization Server.
+> 해당 모듈은 사용자에 대한 인증, 권한 부여에 대한 인증서버 모듈입니다. <br/>
+> 해당 서버는 AT(Access Token), RT(Refresh Token), scope, token_type, expires_in 등을 제공합니다. <br/>
+> OAuth 2.0 Spec 을 기반하고 있으며, Spring-authorization-server 를 사용하여 구현되었습니다.
 ---
 
 ### Flow
@@ -14,6 +17,9 @@
 5. Auth Server provides the Authorization Code.
 6. Client sends the Authorization Code to the Auth Server.
 7. Auth Server provides the Access Token and Refresh Token.
+
+#### Client <-> Server Flow <br/>
+<img src="../docs/img/flow.png" height="500" width="500"/>
 
 --- 
 ### Info
@@ -31,3 +37,6 @@
 #### ETC
 http://localhost:9999/.well-known/openid-configuration
 - 해당 URL 접속시, 해당 서버에서 제공하는 메타데이터를 제공함.(OpenID Connect)
+
+http://localhost:9999/.well-known/oauth-authorization-server 
+- OAuth2 서버에 초점이 맞춰져 있으며, 인증 정보보다는 토큰 발급 및 관리에 관련된 정보만 포함합니다.
