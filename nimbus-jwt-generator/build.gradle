@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.lucas'
+version = '1.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.nimbusds:nimbus-jose-jwt:9.31'
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    // JAR 메타정보 추가
+    manifest {
+        attributes(
+                'Implementation-Title': 'lucas-jwt-generator', // 라이브러리 이름
+                'Implementation-Version': version,    // 버전
+                'Implementation-Vendor': 'Lucas Kang',     // 제공자
+                'Main-Class': '' // 실행 가능한 main이 없다면 빈 값.
+        )
+    }
+
+    // include src/main/java 파일만 포함 (test 디렉토리는 제외)
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}

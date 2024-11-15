@@ -17,15 +17,24 @@ public class UserController {
 
     private final UserService userService;
 
+    /**
+     * User Sign Up - For API
+     * @param user
+     * @return
+     */
     @PostMapping("/signup")
     public ResponseEntity<User> saveUser(@RequestBody User user) {
         User res = userService.saveUser(user);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    /**
+     * User Sign Up - For Page View
+     * @param user
+     * @return
+     */
     @PostMapping("view/signup")
     public RedirectView test(User user) {
-        log.info("user: {}", user);
         User res = userService.saveUser(user);
         if(res != null) {
             return new RedirectView("/login");
