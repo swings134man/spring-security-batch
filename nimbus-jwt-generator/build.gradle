@@ -29,10 +29,10 @@ jar {
     // JAR 메타정보 추가
     manifest {
         attributes(
-                'Implementation-Title': 'lucas-jwt-generator', // 라이브러리 이름
-                'Implementation-Version': version,    // 버전
-                'Implementation-Vendor': 'Lucas Kang',     // 제공자
-                'Main-Class': '' // 실행 가능한 main이 없다면 빈 값.
+                'Implementation-Title': 'nimbus-jwt-generator',
+                'Implementation-Version': version,
+                'Implementation-Vendor': 'Lucas Kang',
+                'Main-Class': '' // if Available main class does not exist
         )
     }
 

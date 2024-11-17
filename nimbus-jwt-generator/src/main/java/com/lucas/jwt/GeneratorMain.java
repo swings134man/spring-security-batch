@@ -1,5 +1,6 @@
 package com.lucas.jwt;
 
+import com.lucas.jwt.obj.ValidationResult;
 import com.lucas.jwt.provider.RsaKeyProvider;
 import com.lucas.jwt.service.JwtService;
 import com.lucas.jwt.service.JwtValidator;
@@ -13,6 +14,7 @@ import com.lucas.jwt.service.JwtValidator;
  *
  * 2024.11.15 Lucas
  */
+@Deprecated
 public class GeneratorMain {
     public static void main(String[] args) throws Exception{
 
@@ -25,9 +27,9 @@ public class GeneratorMain {
         String refreshToken = JwtService.createRefreshToken("lucas");
 
         // 3. Validate Tokens
-        boolean isValidAccess = JwtValidator.validateToken(accessToken);
-        boolean isValidAccessTest = JwtValidator.validateToken(accessTokenTest);
-        boolean isValidRefresh = JwtValidator.validateToken(refreshToken);
+        ValidationResult isValidAccess = JwtValidator.validateToken(accessToken);
+        ValidationResult isValidAccessTest = JwtValidator.validateToken(accessTokenTest);
+        ValidationResult isValidRefresh = JwtValidator.validateToken(refreshToken);
 
         // 4. Get Claim
         String testClaim = JwtValidator.getClaim(accessToken, "test");
@@ -35,19 +37,20 @@ public class GeneratorMain {
 
         // 5. Expire Token Test
         Thread.sleep(4000);
-        boolean isExpired = JwtValidator.validateToken(accessTokenTest);
+        ValidationResult isExpired = JwtValidator.validateToken(accessTokenTest);
 
 
         // 6. Print Result
         System.out.println("Access Token : " + accessToken);
         System.out.println("Refresh Token : " + refreshToken);
         System.out.println();
-        System.out.println("isValid Access Token: " + isValidAccess);
-        System.out.println("isValid Access Token Test: " + isValidAccessTest);
-        System.out.println("isValid Refresh Token: " + isValidRefresh);
+        System.out.println("isValid Access Token: " + isValidAccess.getMessage());
+        System.out.println("isValid Access Token Test: " + isValidAccessTest.getMessage());
+        System.out.println("isValid Refresh Token: " + isValidRefresh.getMessage());
         System.out.println("Test Claim : " + testClaim);
         System.out.println("Role Claim : " + roleClaim);
         System.out.println("------------------ test ------------------");
-        System.out.println("isExpired Access Token Test: " + isExpired);
+        System.out.println("isExpired Access Token Test: " + isExpired.getMessage());
+        System.out.println("isExpired Is : " + isExpired.isValid());
     }
 }

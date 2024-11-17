@@ -1,5 +1,6 @@
 package com.lucas.jwt.service;
 
+import com.lucas.jwt.obj.ValidationResult;
 import com.lucas.jwt.provider.RsaKeyProvider;
 import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -9,7 +10,7 @@ import java.text.ParseException;
 import java.util.Date;
 
 public class JwtValidator {
-    public static boolean validateToken(String token) {
+    public static ValidationResult validateToken(String token) {
         try {
             // JWT 파싱
             SignedJWT signedJWT = SignedJWT.parse(token);
@@ -20,18 +21,18 @@ public class JwtValidator {
 
             // 서명 검증
             if (!signedJWT.verify(verifier)) {
-                return false; // 서명이 유효하지 않음
+                return ValidationResult.failure("Invalid Signature");
             }
 
             // 토큰 만료 여부 확인
             if (isTokenExpired(signedJWT)) {
-                return false; // 토큰 만료
+                return ValidationResult.failure("Token Expired");
             }
 
-            return true; // 유효한 토큰
+            return ValidationResult.success();
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return ValidationResult.failure("Unknown Validation Error");
         }
     }
 

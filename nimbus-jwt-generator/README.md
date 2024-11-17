@@ -1,4 +1,4 @@
-## lucas-jwt-generator
+## nimbus-jwt-generator
 
 ### Info 
 This is a Making RSAKey, JWT and Validate Tokens with nimbus-jose-jwt library.
@@ -16,6 +16,6 @@ This is a Making RSAKey, JWT and Validate Tokens with nimbus-jose-jwt library.
 
 
 dependencies {
-    implementation files('libs/lucas-jwt-generator-1.0.jar')
+    implementation files('libs/nimbus-jwt-generator-1.0.jar')
 }
 ```

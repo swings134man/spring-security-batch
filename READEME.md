@@ -18,3 +18,4 @@
 >> 3. bank-ui (Angular UI): 00_UI_Initial = UI Test Project
 >> 4. security-jwt (Spring Boot 3.2.9, Security 6.2.6): JWT Token을 이용한 Security Test 및 적용 프로젝트
 >> 5. bomkey: OAuth2.0 Authorization Server Module
+>> 6. nimbus-jwt-generator: JWT Token Generator Module By nimbus-jose-jwt library
