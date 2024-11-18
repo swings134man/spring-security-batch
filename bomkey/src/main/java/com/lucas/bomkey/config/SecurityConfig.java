@@ -23,19 +23,38 @@ import org.springframework.security.oauth2.server.authorization.settings.Authori
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 
 @Configuration
-@EnableWebSecurity(debug = false)
+@EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
 
     @Lazy
     private final OAuthClientService oAuthClientService;
-
     private final RsaKeysService rsaKeysService;
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        List<String> originUris = oAuthClientService.getOriginUris();
+        originUris.forEach(config::addAllowedOrigin);
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("GET");
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return source;
+    }
 
     @Bean
     @Order(1)
@@ -45,6 +64,7 @@ public class SecurityConfig {
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
                 .oidc(Customizer.withDefaults()); // Enable OpenID Connect 1.0
         http
+                .cors(Customizer.withDefaults()) // CORS 설정
                 .exceptionHandling((exceptions) -> exceptions
                         .defaultAuthenticationEntryPointFor(
                                 new LoginUrlAuthenticationEntryPoint("/login"),
@@ -62,6 +82,7 @@ public class SecurityConfig {
             throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults()) // CORS 설정(SecurityFilterChain 위 아래 둘다 설정해줘야함.)
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/user/signup", "/user/view/signup", "/signup").permitAll() //signup
                         .requestMatchers("/client/**").permitAll()

@@ -13,6 +13,8 @@ import org.springframework.security.oauth2.server.authorization.settings.ClientS
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -66,6 +68,14 @@ public class OAuthClientService {
                 .scope(OidcScopes.PROFILE)
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(result.isRequireAuthorizationConsent()).build())
                 .build();
+    }
+
+    /**
+     * Get OriginUris from OAuthClient
+     * @return
+     */
+    public List<String> getOriginUris() {
+        return repository.findOrigins();
     }
 
     @Transactional
