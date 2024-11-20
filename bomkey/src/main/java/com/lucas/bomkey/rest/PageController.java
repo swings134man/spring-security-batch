@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class PageController {
 
 
-//    @GetMapping("/login")
-//    public String loginController() {
-//        return "login";
-//    }
+    @GetMapping("/login")
+    public String loginController() {
+        return "login";
+    }
 
     @GetMapping("/signup")
     public String signupController() {

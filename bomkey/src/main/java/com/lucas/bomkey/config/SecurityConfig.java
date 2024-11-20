@@ -90,8 +90,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer((resourceServer) -> resourceServer.jwt(Customizer.withDefaults())) // (리소스서버에서)JWT Token 으로 인증, Test 및 user 관련으로 접근가능?
-                .formLogin(Customizer.withDefaults()); //default
-//                .formLogin(form -> form.loginPage("/login").permitAll());
+//                .formLogin(Customizer.withDefaults()); //default
+                .formLogin(form -> form.loginPage("/login").permitAll());
 
         return http.build();
     }
