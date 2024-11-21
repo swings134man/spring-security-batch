@@ -1,16 +1,15 @@
-package com.lucas.jwt.provider;
+package com.lucas.jwt.impl;
 
+import com.lucas.jwt.interfaces.RsaKeyProviderInterface;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.gen.RSAKeyGenerator;
 
-@Deprecated
-public class RsaKeyProvider {
-
+public class DefaultRsaKeyProvider implements RsaKeyProviderInterface {
     private static RSAKey rsaKey;
 
-    // RSAKey init
-    public static void initializeKey() throws JOSEException {
+    @Override
+    public void initializeKey() throws JOSEException {
         if(rsaKey == null){
             rsaKey = new RSAKeyGenerator(2048)
                     .keyID("lucas") // 고유 Key 식별 ID
@@ -18,18 +17,14 @@ public class RsaKeyProvider {
         }
     }
 
-    public static RSAKey getRsaKey() throws JOSEException {
+    @Override
+    public RSAKey getRsaKey() throws JOSEException {
         if(rsaKey == null) initializeKey();
         return rsaKey;
     }
 
-    /**
-     * RSAKey Object return to JWK Format
-     * This JWK Object include Public Key Information
-     * @return
-     * @throws JOSEException
-     */
-    public static RSAKey getPublicKey() throws JOSEException {
+    @Override
+    public RSAKey getPublicKey() throws JOSEException {
         return getRsaKey().toPublicJWK();
     }
 }

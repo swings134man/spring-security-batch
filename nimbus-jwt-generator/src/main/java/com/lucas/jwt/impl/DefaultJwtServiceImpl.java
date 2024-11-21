@@ -1,5 +1,7 @@
-package com.lucas.jwt.service;
+package com.lucas.jwt.impl;
 
+import com.lucas.jwt.interfaces.JwtServiceInterface;
+import com.lucas.jwt.interfaces.RsaKeyProviderInterface;
 import com.lucas.jwt.provider.RsaKeyProvider;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
@@ -11,26 +13,31 @@ import com.nimbusds.jwt.SignedJWT;
 
 import java.util.Date;
 
-@Deprecated
-public class JwtService {
-    private static final long ACCESS_TOKEN_EXPIRATION = 15 * 60 * 1000; // 15분
-    private static final long REFRESH_TOKEN_EXPIRATION = 7 * 24 * 60 * 60 * 1000; // 7일
+// @Service ?
+public class DefaultJwtServiceImpl implements JwtServiceInterface {
 
-    // Access Token 생성
-    public static String createAccessToken(String userId, String role) throws Exception {
+    private final RsaKeyProviderInterface rsaKeyProvider;
+
+    public DefaultJwtServiceImpl(RsaKeyProviderInterface rsaKeyProvider) {
+        this.rsaKeyProvider = rsaKeyProvider;
+    }
+
+    private static final long ACCESS_TOKEN_EXPIRATION = 15 * 60 * 1000; // 15 Minute
+    private static final long REFRESH_TOKEN_EXPIRATION = 7 * 24 * 60 * 60 * 1000; // 7 Days
+
+    @Override
+    public String createAccessToken(String userId, String role) throws Exception {
         return createToken(userId, role, ACCESS_TOKEN_EXPIRATION);
     }
 
-    // Refresh Token 생성
-    public static String createRefreshToken(String userId) throws Exception {
+    @Override
+    public String createRefreshToken(String userId) throws Exception {
         return createToken(userId, null, REFRESH_TOKEN_EXPIRATION);
     }
 
-    private static String createToken(String userId, String role, long expirationMillis) throws Exception {
-        // RSA 키 가져오기
-        RSAKey rsaKey = RsaKeyProvider.getRsaKey();
+    private String createToken(String userId, String role, long expirationMillis) throws Exception {
+        RSAKey rsaKey = rsaKeyProvider.getRsaKey();
 
-        // Claim 설정
         JWTClaimsSet.Builder claimsSetBuilder = new JWTClaimsSet.Builder()
                 .subject(userId)
                 .issuer("your-application")
@@ -44,24 +51,13 @@ public class JwtService {
 
         JWTClaimsSet claimsSet = claimsSetBuilder.build();
 
-        // JWT 서명
         JWSSigner signer = new RSASSASigner(rsaKey);
         SignedJWT signedJWT = new SignedJWT(
                 new JWSHeader.Builder(JWSAlgorithm.RS256).keyID(rsaKey.getKeyID()).build(),
                 claimsSet
         );
-        // Sign
         signedJWT.sign(signer);
 
         return signedJWT.serialize();
-    }
-
-    // For TEST
-    @Deprecated
-    private static final long ACCESS_TOKEN_EXPIRATION_TEST = -3000; // 3sec
-
-    @Deprecated
-    public static String createAccessTokenForTest(String userId, String role) throws Exception {
-        return createToken(userId, role, ACCESS_TOKEN_EXPIRATION_TEST);
     }
 }
