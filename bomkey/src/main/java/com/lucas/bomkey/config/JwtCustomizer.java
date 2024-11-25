@@ -35,9 +35,9 @@ public class JwtCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext> 
             context.getClaims().claim("user_host", returnClientId());
 
             // Exp
-            Instant now = Instant.now();
-            Instant expTime = now.plus(60, ChronoUnit.MINUTES); // 1Hour
-            context.getClaims().expiresAt(expTime);
+//            Instant now = Instant.now();
+//            Instant expTime = now.plus(60, ChronoUnit.MINUTES); // 1Hour
+//            context.getClaims().expiresAt(expTime);
         }
     }
 }

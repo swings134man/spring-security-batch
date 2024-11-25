@@ -1,5 +1,6 @@
 // frontend/src/utils/auth.ts
 import axios from 'axios';
+import {api} from "boot/axios";
 
 // parameter extraction
 export const getCodeFromUrl = () => {
@@ -38,3 +39,21 @@ const setToken = (atToken: string, rtToken: string) => {
   localStorage.setItem('accessToken', atToken); // Access Token
   document.cookie = `refreshToken=${rtToken}; Secure; HttpOnly; SameSite=Strict`; // Refresh Token: Only accessible by the server
 }
+
+// export const logout = async () => {
+//   // Axios로 인증 서버에 토큰 무효화 요청
+//   try {
+//     const accessToken = localStorage.getItem('accessToken');
+//     const response = await axios.post('http://localhost:9999/oauth/revoke', null, {
+//       headers: {
+//         'Authorization': `Bearer ${accessToken}`
+//       }
+//     }).then(() => {
+//       localStorage.removeItem('accessToken');
+//       document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+//     });
+//     console.log('Token revoked successfully:', response);
+//   } catch (error) {
+//     console.error('Error revoking token:', error);
+//   }
+// }

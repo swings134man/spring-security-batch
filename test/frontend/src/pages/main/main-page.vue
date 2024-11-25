@@ -10,7 +10,7 @@
         :key="item.label"
         :label="item.label"
         color="primary"
-        @click="$router.push(item.link)">
+        @click="testReq()">
       </q-btn>
       <q-btn
         label="Test APIS"
@@ -28,8 +28,19 @@ import axios from "axios";
 import {api} from "boot/axios";
 
 const list = [
-  {label: 'test1', link: '/test1'},
+  {label: 'test', link: '/test'},
 ]
+
+const testReq = () => {
+  console.log('test');
+  api.get('/test')
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+}
 
 const test = () => {
   console.log('test');

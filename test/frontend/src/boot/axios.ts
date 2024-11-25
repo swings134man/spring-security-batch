@@ -10,7 +10,7 @@ declare module '@vue/runtime-core' {
 
 const isTest = true; // false: local, true: server
 
-const api = axios.create({ baseURL: isTest ? 'http://127.0.0.1:8088' : '' }); // TODO: domain 존재시?
+const api = axios.create({ baseURL: isTest ? 'http://localhost:8088' : '' }); // TODO: domain 존재시?
 
 // Retrieve tokens
 const accessToken = localStorage.getItem('accessToken');
@@ -24,6 +24,7 @@ api.interceptors.request.use(config => {
   if (refreshToken) {
     config.headers['x-refresh-token'] = refreshToken;
   }
+  console.log('request header', config.headers);
   return config;
 }, error => {
   return Promise.reject(error);
