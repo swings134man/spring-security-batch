@@ -1,0 +1,27 @@
+{
+  "extends": "@quasar/app-vite/tsconfig-preset",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "noImplicitAny": false,
+
+    "allowSyntheticDefaultImports": true,
+    "strictFunctionTypes": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "types": [
+      "vite/client",
+      "element-plus/global",
+      "@types/jquery",
+      "@types/lodash",
+      "vite-plugin-svg-icons/client",
+      "unplugin-vue-define-options/macros-global",
+      "vue-final-modal"
+    ]
+  },
+  "include": [
+    "src/**/*"
+  ]
+}
