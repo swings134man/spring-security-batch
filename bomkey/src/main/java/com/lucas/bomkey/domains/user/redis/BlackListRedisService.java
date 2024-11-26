@@ -1,4 +1,4 @@
-package com.lucas.bomkey.user.redis;
+package com.lucas.bomkey.domains.user.redis;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

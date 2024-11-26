@@ -1,4 +1,4 @@
-package com.lucas.bomkey.keys;
+package com.lucas.bomkey.domains.keys;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;

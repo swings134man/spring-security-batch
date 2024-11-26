@@ -1,7 +1,7 @@
 package com.lucas.bomkey.rest;
 
-import com.lucas.bomkey.user.User;
-import com.lucas.bomkey.user.UserService;
+import com.lucas.bomkey.domains.user.User;
+import com.lucas.bomkey.domains.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

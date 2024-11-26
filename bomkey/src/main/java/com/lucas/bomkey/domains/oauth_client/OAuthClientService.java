@@ -1,4 +1,4 @@
-package com.lucas.bomkey.oauth_client;
+package com.lucas.bomkey.domains.oauth_client;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

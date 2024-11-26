@@ -1,9 +1,9 @@
 package com.lucas.bomkey.rest;
 
-import com.lucas.bomkey.keys.RsaKeys;
-import com.lucas.bomkey.keys.RsaKeysService;
-import com.lucas.bomkey.oauth_client.OAuthClient;
-import com.lucas.bomkey.oauth_client.OAuthClientService;
+import com.lucas.bomkey.domains.keys.RsaKeys;
+import com.lucas.bomkey.domains.keys.RsaKeysService;
+import com.lucas.bomkey.domains.oauth_client.OAuthClient;
+import com.lucas.bomkey.domains.oauth_client.OAuthClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

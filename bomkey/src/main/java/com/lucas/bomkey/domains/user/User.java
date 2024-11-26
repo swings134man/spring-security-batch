@@ -1,4 +1,4 @@
-package com.lucas.bomkey.user;
+package com.lucas.bomkey.domains.user;
 
 import com.lucas.bomkey.config.BaseTimeEntity;
 import jakarta.persistence.*;

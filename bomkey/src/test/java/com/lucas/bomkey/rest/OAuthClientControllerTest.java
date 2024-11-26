@@ -2,8 +2,7 @@ package com.lucas.bomkey.rest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lucas.bomkey.oauth_client.OAuthClient;
-import org.apache.commons.lang3.RandomStringUtils;
+import com.lucas.bomkey.domains.oauth_client.OAuthClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

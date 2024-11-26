@@ -1,4 +1,4 @@
-package com.lucas.bomkey.user;
+package com.lucas.bomkey.domains.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

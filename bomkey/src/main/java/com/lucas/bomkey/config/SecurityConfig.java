@@ -1,7 +1,7 @@
 package com.lucas.bomkey.config;
 
-import com.lucas.bomkey.keys.RsaKeysService;
-import com.lucas.bomkey.oauth_client.OAuthClientService;
+import com.lucas.bomkey.domains.keys.RsaKeysService;
+import com.lucas.bomkey.domains.oauth_client.OAuthClientService;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import lombok.RequiredArgsConstructor;

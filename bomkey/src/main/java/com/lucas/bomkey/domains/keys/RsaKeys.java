@@ -1,4 +1,4 @@
-package com.lucas.bomkey.keys;
+package com.lucas.bomkey.domains.keys;
 
 import jakarta.persistence.*;
 import lombok.Getter;

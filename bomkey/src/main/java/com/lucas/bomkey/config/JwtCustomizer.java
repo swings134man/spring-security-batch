@@ -1,15 +1,10 @@
 package com.lucas.bomkey.config;
 
-import com.lucas.bomkey.user.User;
-import com.lucas.bomkey.user.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.stereotype.Component;
-
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 
 /**
  * JWT Customizer

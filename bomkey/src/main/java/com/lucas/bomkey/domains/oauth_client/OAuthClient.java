@@ -1,4 +1,4 @@
-package com.lucas.bomkey.oauth_client;
+package com.lucas.bomkey.domains.oauth_client;
 
 import com.lucas.bomkey.config.BaseTimeEntity;
 import jakarta.persistence.*;

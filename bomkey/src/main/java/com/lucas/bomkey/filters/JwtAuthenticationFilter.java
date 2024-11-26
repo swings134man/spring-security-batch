@@ -1,6 +1,6 @@
 package com.lucas.bomkey.filters;
 
-import com.lucas.bomkey.user.redis.BlackListRedisService;
+import com.lucas.bomkey.domains.user.redis.BlackListRedisService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
