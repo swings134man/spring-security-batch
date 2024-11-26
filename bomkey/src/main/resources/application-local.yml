@@ -7,13 +7,13 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://192.168.45.135:3360/bomkey?useSSL=false
     username: develop
-    password: develop12!@
+    password: ENC(WHvGkhjSBguyOEFpBmTuS4L1tNj6s2/fAR0u05dLisKe1jvDg5XP9M9ogzS3y7ox)
 
   data:
     redis:
       host: 192.168.45.135
       port: 16379
-      password: redis!@#
+      password: ENC(AeF4V0locn03AahQ/fhxDhWl9SrkcFcq03860YD0cNx1B7t/vyGdDwN5o9xQE2/c)
 
   jpa:
     show-sql: true

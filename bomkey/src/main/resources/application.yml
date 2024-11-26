@@ -4,3 +4,7 @@ server:
 spring:
   profiles:
     active: local
+
+jasypt:
+  encryptor:
+    password: encryptKeyTestKey # TODO: 환경변수 || GitSecretKey 로 숨김 필요.
