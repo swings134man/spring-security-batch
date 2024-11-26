@@ -9,6 +9,11 @@ spring:
     username: develop
     password: develop12!@
 
+  data:
+    redis:
+      host: 192.168.45.135
+      port: 16379
+      password: redis!@#
 
   jpa:
     show-sql: true

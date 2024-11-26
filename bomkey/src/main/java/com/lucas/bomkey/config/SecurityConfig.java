@@ -32,7 +32,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
 @RequiredArgsConstructor
 public class SecurityConfig {
 

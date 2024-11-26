@@ -38,3 +38,7 @@ grant_type = refresh_token &
 refresh_token = hB6OYZkcc3L3AGlcVJgD4uG7qcCYZo3NNFVHhV-qbYCIvg-vTlCkCfR9LlwqPjEhFf5okbYBytN59Own257wX9YTlqvSROGqORwi8h6j59PEQVwZRMC2MkXxHAkshCft
 ###
 
+## 6. Custom Revoke APIs
+POST http://localhost:9999/oauth2/v1/revoke?token=<access_token>
+## After Call This API Access Token is Invalid
+## And Recall (4) Test Request!
