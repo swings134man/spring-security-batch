@@ -6,20 +6,26 @@
   <title>로그인 성공</title>
   <style>
     body { font-family: "Pretendard", sans-serif; margin: 0; background: #f8fafc; }
+    .top { background: #0f172a; padding: 12px 18px; }
+    .top a { color: #e2e8f0; text-decoration: none; font-weight: 700; }
     .box { max-width: 720px; margin: 40px auto; background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08); }
     textarea { width: 100%; min-height: 120px; margin-top: 8px; }
     a { display: inline-block; margin-top: 16px; }
   </style>
 </head>
 <body>
+<div class="top"><a href="/">Sample</a></div>
 <div class="box">
   <h2>로그인 성공</h2>
-  <p>아래 토큰으로 API를 호출할 수 있습니다.</p>
+  <p>Access Token을 전역 메모리(sessionStorage)에 저장했습니다. Refresh Token은 HttpOnly 쿠키로 저장됩니다.</p>
   <h3>Access Token</h3>
-  <textarea readonly th:text="${accessToken}"></textarea>
-  <h3>Refresh Token</h3>
-  <textarea readonly th:text="${refreshToken}"></textarea>
+  <textarea id="accessTokenText" readonly th:text="${accessToken}"></textarea>
   <a href="/auth/token-lab">토큰 테스트 페이지 이동</a>
 </div>
+<script>
+  const accessToken = document.getElementById('accessTokenText').value;
+  window.__APP_ACCESS_TOKEN__ = accessToken;
+  sessionStorage.setItem('app_access_token', accessToken);
+</script>
 </body>
 </html>

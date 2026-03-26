@@ -4,6 +4,8 @@ import com.lucas.socialsample.models.auth.dto.CompleteSocialSignUpCommand
 import com.lucas.socialsample.models.auth.dto.LoginCommand
 import com.lucas.socialsample.models.auth.dto.SignUpCommand
 import com.lucas.socialsample.models.auth.service.AuthService
+import jakarta.servlet.http.HttpServletResponse
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam
 @Controller
 class PageController(
     private val authService: AuthService,
+    @Value("\${app.auth-cookie.secure:true}") private val authCookieSecure: Boolean,
 ) {
 
     @GetMapping("/")
@@ -40,6 +43,7 @@ class PageController(
         @RequestParam nickname: String,
         @RequestParam(required = false) name: String?,
         @RequestParam(required = false) phoneNumber: String?,
+        response: HttpServletResponse,
     ): String {
         val result = authService.signUp(
             SignUpCommand(
@@ -50,16 +54,25 @@ class PageController(
                 phoneNumber = phoneNumber,
             ),
         )
-        return "redirect:/auth/success?accessToken=${result.accessToken}&refreshToken=${result.refreshToken}"
+        response.addHeader(
+            "Set-Cookie",
+            "refreshToken=${result.refreshToken}; Max-Age=604800; Path=/; HttpOnly; ${if (authCookieSecure) "Secure; " else ""}SameSite=Lax",
+        )
+        return "redirect:/auth/success?accessToken=${result.accessToken}"
     }
 
     @PostMapping("/auth/login")
     fun login(
         @RequestParam loginId: String,
         @RequestParam password: String,
+        response: HttpServletResponse,
     ): String {
         val result = authService.login(LoginCommand(loginId = loginId, password = password))
-        return "redirect:/auth/success?accessToken=${result.accessToken}&refreshToken=${result.refreshToken}"
+        response.addHeader(
+            "Set-Cookie",
+            "refreshToken=${result.refreshToken}; Max-Age=604800; Path=/; HttpOnly; ${if (authCookieSecure) "Secure; " else ""}SameSite=Lax",
+        )
+        return "redirect:/auth/success?accessToken=${result.accessToken}"
     }
 
     @GetMapping("/social/complete")
@@ -77,6 +90,7 @@ class PageController(
         @RequestParam nickname: String,
         @RequestParam phoneNumber: String,
         @RequestParam(defaultValue = "false") agreedMarketing: Boolean,
+        response: HttpServletResponse,
     ): String {
         val result = authService.completeSocialSignUp(
             CompleteSocialSignUpCommand(
@@ -86,17 +100,19 @@ class PageController(
                 agreedMarketing = agreedMarketing,
             ),
         )
-        return "redirect:/auth/success?accessToken=${result.accessToken}&refreshToken=${result.refreshToken}"
+        response.addHeader(
+            "Set-Cookie",
+            "refreshToken=${result.refreshToken}; Max-Age=604800; Path=/; HttpOnly; ${if (authCookieSecure) "Secure; " else ""}SameSite=Lax",
+        )
+        return "redirect:/auth/success?accessToken=${result.accessToken}"
     }
 
     @GetMapping("/auth/success")
     fun successPage(
         @RequestParam accessToken: String,
-        @RequestParam refreshToken: String,
         model: Model,
     ): String {
         model.addAttribute("accessToken", accessToken)
-        model.addAttribute("refreshToken", refreshToken)
         return "auth/success"
     }
 

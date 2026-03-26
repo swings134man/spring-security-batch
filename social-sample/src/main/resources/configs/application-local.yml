@@ -30,7 +30,7 @@ spring:
     init:
       mode: always
       schema-locations: classpath:sql/schema.sql
-#      data-locations: classpath:sql/data.sql
+      data-locations: classpath:sql/data.sql
 
   # Redis (로컬에서 Redis 없을 경우 대비)
   data:
@@ -76,6 +76,10 @@ spring:
 
   cors:
     allowed-origins: http://localhost:3000,http://localhost:5173
+
+app:
+  auth-cookie:
+    secure: false
 
 # 로깅
 logging:

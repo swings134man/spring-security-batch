@@ -23,6 +23,9 @@ app:
     refresh-token-days: 7
     pending-token-minutes: 30
 
+  auth-cookie:
+    secure: true
+
   security:
     public-paths:
       - /

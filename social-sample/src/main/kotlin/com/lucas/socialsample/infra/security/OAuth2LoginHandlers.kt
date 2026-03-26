@@ -1,10 +1,12 @@
 package com.lucas.socialsample.infra.security
 
+import com.lucas.socialsample.infra.configs.JwtProperties
 import com.lucas.socialsample.models.auth.entity.AuthType
 import com.lucas.socialsample.models.auth.service.AuthService
 import com.lucas.socialsample.models.auth.service.SocialAttributeExtractor
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
@@ -17,6 +19,8 @@ import java.nio.charset.StandardCharsets
 class OAuth2LoginSuccessHandler(
     private val authService: AuthService,
     private val socialAttributeExtractor: SocialAttributeExtractor,
+    private val jwtProperties: JwtProperties,
+    @Value("\${app.auth-cookie.secure:true}") private val authCookieSecure: Boolean,
 ) : AuthenticationSuccessHandler {
 
     override fun onAuthenticationSuccess(
@@ -44,9 +48,15 @@ class OAuth2LoginSuccessHandler(
         }
 
         val tokenPair = result.tokenPair ?: throw IllegalStateException("token pair missing")
+        response.setHeader("X-Access-Token", tokenPair.accessToken)
+        response.addHeader(
+            "Set-Cookie",
+            "refreshToken=${tokenPair.refreshToken}; Max-Age=${jwtProperties.refreshTokenDays * 24 * 60 * 60}; Path=/; HttpOnly; ${
+                if (authCookieSecure) "Secure; " else ""
+            }SameSite=Lax",
+        )
         val accessToken = URLEncoder.encode(tokenPair.accessToken, StandardCharsets.UTF_8)
-        val refreshToken = URLEncoder.encode(tokenPair.refreshToken, StandardCharsets.UTF_8)
-        response.sendRedirect("/auth/success?accessToken=$accessToken&refreshToken=$refreshToken")
+        response.sendRedirect("/auth/success?accessToken=$accessToken")
     }
 }
 

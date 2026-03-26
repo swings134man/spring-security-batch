@@ -13,14 +13,6 @@ data class LoginRequest(
     val password: String,
 )
 
-data class RefreshRequest(
-    val refreshToken: String,
-)
-
-data class LogoutRequest(
-    val refreshToken: String,
-)
-
 data class CompleteSocialSignUpRequest(
     val pendingToken: String,
     val nickname: String,
