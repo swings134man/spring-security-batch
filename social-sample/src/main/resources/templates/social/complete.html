@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>추가 정보 입력</title>
+  <style>
+    body { font-family: "Pretendard", sans-serif; margin: 0; background: #f8fafc; }
+    .box { max-width: 460px; margin: 50px auto; background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08); }
+    input, button { width: 100%; padding: 10px; margin-top: 10px; box-sizing: border-box; }
+    label { display: block; margin-top: 10px; }
+  </style>
+</head>
+<body>
+<div class="box">
+  <h2>추가 정보 입력</h2>
+  <p>소셜 로그인 최초 사용자입니다. 가입 완료를 위해 필수 정보를 입력하세요.</p>
+  <form method="post" action="/social/complete">
+    <input type="hidden" name="pendingToken" th:value="${pendingToken}" />
+    <input type="text" name="nickname" placeholder="서비스 닉네임" required />
+    <input type="text" name="phoneNumber" placeholder="전화번호" required />
+    <label><input type="checkbox" name="agreedMarketing" value="true" /> 마케팅 정보 수신 동의(선택)</label>
+    <button type="submit">가입 완료</button>
+  </form>
+</div>
+</body>
+</html>

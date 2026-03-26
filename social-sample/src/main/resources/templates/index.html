@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>social-sample</title>
+  <style>
+    body { font-family: "Pretendard", sans-serif; margin: 0; background: linear-gradient(135deg, #e0f2fe, #f8fafc); }
+    .wrap { max-width: 840px; margin: 40px auto; background: #fff; border-radius: 16px; padding: 28px; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08); }
+    h1 { margin-top: 0; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 20px; }
+    a { display: block; padding: 14px; border-radius: 10px; text-decoration: none; color: #0f172a; background: #f1f5f9; }
+    a:hover { background: #dbeafe; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1 th:text="${title}">social-sample</h1>
+  <p>메인 페이지는 비로그인 접근이 가능합니다.</p>
+  <div class="grid">
+    <a href="/auth/login">로그인 페이지</a>
+    <a href="/auth/signup">일반 회원가입</a>
+    <a href="/oauth2/authorization/kakao">카카오 로그인</a>
+    <a href="/oauth2/authorization/naver">네이버 로그인</a>
+    <a href="/auth/token-lab">토큰 테스트 화면</a>
+  </div>
+</div>
+</body>
+</html>

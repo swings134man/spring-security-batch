@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>회원가입</title>
+  <style>
+    body { font-family: "Pretendard", sans-serif; background: #f8fafc; margin: 0; }
+    .box { max-width: 440px; margin: 50px auto; background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08); }
+    input, button { width: 100%; padding: 10px; margin-top: 10px; box-sizing: border-box; }
+  </style>
+</head>
+<body>
+<div class="box">
+  <h2>일반 회원가입</h2>
+  <form method="post" action="/auth/signup">
+    <input type="email" name="email" placeholder="이메일" required />
+    <input type="password" name="password" placeholder="비밀번호" required />
+    <input type="text" name="nickname" placeholder="닉네임" required />
+    <input type="text" name="name" placeholder="이름(선택)" />
+    <input type="text" name="phoneNumber" placeholder="전화번호(선택)" />
+    <button type="submit">가입하고 로그인</button>
+  </form>
+</div>
+</body>
+</html>

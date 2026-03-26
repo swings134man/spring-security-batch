@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>로그인</title>
+  <style>
+    body { font-family: "Pretendard", sans-serif; margin: 0; background: #f8fafc; }
+    .box { max-width: 420px; margin: 50px auto; background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08); }
+    input, button { width: 100%; padding: 10px; margin-top: 10px; box-sizing: border-box; }
+    .error { color: #b91c1c; margin-top: 10px; }
+    .row { display: flex; gap: 8px; margin-top: 14px; }
+    .row a { flex: 1; text-align: center; text-decoration: none; padding: 10px; border-radius: 8px; background: #e2e8f0; color: #0f172a; }
+  </style>
+</head>
+<body>
+<div class="box">
+  <h2>로그인</h2>
+  <form method="post" action="/auth/login">
+    <input type="text" name="loginId" placeholder="이메일" required />
+    <input type="password" name="password" placeholder="비밀번호" required />
+    <button type="submit">일반 로그인</button>
+  </form>
+
+  <div class="row">
+    <a href="/oauth2/authorization/kakao">카카오 로그인</a>
+    <a href="/oauth2/authorization/naver">네이버 로그인</a>
+  </div>
+
+  <div class="row">
+    <a href="/auth/signup">회원가입</a>
+    <a href="/">메인</a>
+  </div>
+
+  <p class="error" th:if="${error != null}" th:text="${error}"></p>
+</div>
+</body>
+</html>

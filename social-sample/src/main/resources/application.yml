@@ -14,3 +14,24 @@ spring:
   jackson:
     time-zone: Asia/Seoul
     date-format: yyyy-MM-dd'T'HH:mm:ss
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:local-dev-secret-key-must-be-at-least-256-bits-long-for-hs256-algorithm}
+    issuer: social-sample
+    access-token-minutes: 60
+    refresh-token-days: 7
+    pending-token-minutes: 30
+
+  security:
+    public-paths:
+      - /
+      - /error
+      - /css/**
+      - /js/**
+      - /images/**
+      - /h2-console/**
+      - /auth/**
+      - /oauth2/**
+      - /login/**
+      - /social/complete/**

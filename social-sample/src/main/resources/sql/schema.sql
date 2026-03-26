@@ -10,6 +10,7 @@ CREATE TABLE users (
                        profile_image_url VARCHAR(500),                      -- 프로필 이미지 URL (소셜 또는 사용자 입력)
 
                        status VARCHAR(20) NOT NULL DEFAULT 'PENDING',       -- 가입 상태 (PENDING, ACTIVE, BLOCKED, WITHDRAWN)
+                       role VARCHAR(20) NOT NULL DEFAULT 'USER',            -- 권한 (USER, ADMIN)
                        last_login_at TIMESTAMP,                             -- 마지막 로그인 시간
 
                        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,  -- 생성일

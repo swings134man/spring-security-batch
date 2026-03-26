@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Token Lab</title>
+  <style>
+    body { font-family: "Pretendard", sans-serif; margin: 0; background: #f8fafc; }
+    .box { max-width: 860px; margin: 40px auto; background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08); }
+    textarea, input, button { width: 100%; box-sizing: border-box; margin-top: 8px; padding: 10px; }
+    pre { background: #0f172a; color: #e2e8f0; padding: 12px; border-radius: 8px; overflow: auto; }
+  </style>
+</head>
+<body>
+<div class="box">
+  <h2>Token Lab</h2>
+  <p>1) access token으로 내 정보 조회, 2) refresh token으로 재발급을 확인합니다.</p>
+
+  <label>Access Token</label>
+  <textarea id="accessToken"></textarea>
+
+  <label>Refresh Token</label>
+  <textarea id="refreshToken"></textarea>
+
+  <button onclick="callMe()">GET /api/auth/me</button>
+  <button onclick="refreshTokenReq()">POST /api/auth/refresh</button>
+  <button onclick="logoutReq()">POST /api/auth/logout</button>
+
+  <h3>Result</h3>
+  <pre id="result"></pre>
+</div>
+
+<script>
+  const result = document.getElementById('result');
+
+  async function callMe() {
+    const accessToken = document.getElementById('accessToken').value.trim();
+    const res = await fetch('/api/auth/me', {
+      headers: { Authorization: `Bearer ${accessToken}` }
+    });
+    result.textContent = await res.text();
+  }
+
+  async function refreshTokenReq() {
+    const refreshToken = document.getElementById('refreshToken').value.trim();
+    const res = await fetch('/api/auth/refresh', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refreshToken })
+    });
+    result.textContent = await res.text();
+  }
+
+  async function logoutReq() {
+    const refreshToken = document.getElementById('refreshToken').value.trim();
+    const res = await fetch('/api/auth/logout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refreshToken })
+    });
+    result.textContent = await res.text();
+  }
+</script>
+</body>
+</html>
