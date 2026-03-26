@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: social-sample
+
+  profiles:
+    active: local
+
+  config:
+    import:
+      - classpath:/configs/application-dev.yml
+      - classpath:/configs/application-local.yml
+
+  # JSON 직렬화 설정
+  jackson:
+    time-zone: Asia/Seoul
+    date-format: yyyy-MM-dd'T'HH:mm:ss

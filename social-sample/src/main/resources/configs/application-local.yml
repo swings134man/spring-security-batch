@@ -1,0 +1,58 @@
+# Local 개발 환경 설정
+spring:
+  config:
+    import: optional:classpath:application.yml
+    activate:
+      on-profile: local
+
+  # H2 인메모리 데이터베이스
+  datasource:
+    url: jdbc:h2:mem:social;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  # H2 콘솔 활성화
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  # JPA 설정
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false # logging.level 대체
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: create #fixme
+    defer-datasource-initialization: true #fixme
+#  sql:
+#    init:
+#      mode: always #fixme
+#      schema-locations: classpath:sql/schema.sql
+#      data-locations: classpath:sql/data.sql
+
+  # Redis (로컬에서 Redis 없을 경우 대비)
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+
+# 앱 설정
+app:
+  jwt:
+    secret: local-dev-secret-key-must-be-at-least-256-bits-long-for-hs256-algorithm
+
+  cors:
+    allowed-origins: http://localhost:3000,http://localhost:5173
+
+# 로깅
+logging:
+  level:
+    com.findcar: DEBUG
+    org.hibernate.SQL: DEBUG
+#    org.springframework.security: DEBUG
+#    org.hibernate.type.descriptor.sql: TRACE
