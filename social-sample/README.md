@@ -41,6 +41,9 @@ Spring Boot + Kotlin 기반의 로그인 샘플입니다.
    - `KAKAO_CLIENT_ID`, `KAKAO_CLIENT_SECRET`
    - `NAVER_CLIENT_ID`, `NAVER_CLIENT_SECRET`
    - `JWT_SECRET`
+   - Environment Variables 설정:
+     - key:value;key:value;...
+     
 3. 애플리케이션 실행
    - `./gradlew bootRun`
 
